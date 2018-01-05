@@ -5,18 +5,18 @@ import java.util.stream.Collectors;
 
 public class Sum extends Term {
 
-	private List<Term> summands;
+	private Term summand1;
+	private Term summand2;
 
-	public Sum(List<Term> summands) {
+	public Sum(Term summand1, Term summand2) {
 		super();
-		this.summands = summands;
+		this.summand1 = summand1;
+		this.summand2 = summand2;
 	}
 
 	@Override
 	public int calculate() {
-		return summands.stream().collect(Collectors.summingInt((Term t) -> {
-			return t.calculate();
-		}));
+		return summand1.calculate() + summand2.calculate();
 	}
 
 }

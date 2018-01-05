@@ -5,16 +5,19 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Please enter a term:");
 
-		Scanner scanner = new Scanner(System.in);
+		while (true) {
+			System.out.println("Please enter a term:");
 
-		String term = scanner.nextLine();
+			Scanner scanner = new Scanner(System.in);
 
-		TermParser reader = new TermParser();
-		Term t = reader.parse(term);
+			String term = scanner.nextLine();
 
-		System.out.println(term + " = " + t.calculate());
+			TermParser reader = new TermParser();
+			Term t = reader.parse(term);
+
+			System.out.println(term + " = " + t.calculate());
+		}
 	}
 
 }

@@ -21,9 +21,8 @@ public class TermParser {
 		try {
 			pattern = Pattern
 					.compile(IOUtils.toString(
-							new FileInputStream(
-									TermParser.class.getClassLoader().getResource("term.regex").getFile()),
-							"UTF-8"));
+									TermParser.class.getClassLoader().getResourceAsStream("term1.regex")) );
+							
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -35,30 +34,34 @@ public class TermParser {
 		matcher.setMode(Matcher.CAPTURE_TREE);
 		if (!matcher.matches())
 			return null;
-		CaptureTree groupTree = matcher.captureTree();
-		return parse(groupTree.getRoot() );
+		CaptureTree captureTree = matcher.captureTree();
+		System.out.println(captureTree);
+		return parse(captureTree.getRoot() );
 
 	}
 
-	private Term parse(CaptureTreeNode groupTree) {
-		if (groupTree.getGroupName() == null || "term".equals(groupTree.getGroupName()))
-			return parse(groupTree.getChildren().get(0));
+	private Term parse(CaptureTreeNode node) {
+		if (node.getGroupName() == null || "term".equals(node.getGroupName()))
+			return parse(node.getChildren().get(0));
 
-		switch (groupTree.getGroupName() ) {
+		switch (node.getGroupName() ) {
 		case "sum":
-			List<Term> summands = groupTree.getChildren().stream().filter(g -> "summand".equals(g.getGroupName()))
-					.map(g -> parse(g)).collect(Collectors.toList());
-			return new Sum(summands);
+			List<Term> summands = node.getChildren().stream()
+					.map(c -> parse(c)).collect(Collectors.toList());
+			return new Sum(summands.get(0), summands.get(1));
 		case "product":
-			List<Term> factors = groupTree.getChildren().stream().filter(g -> "factor".equals(g.getGroupName()))
-					.map(g -> parse(g)).collect(Collectors.toList());
-			return new Product(factors);
-		case "summand":
-		case "factor":
-			return parse(groupTree.getChildren().stream().filter(g -> !"round".equals(g.getGroupName())).findAny().get());
+			List<Term> factors = node.getChildren().stream()
+					.map(c -> parse(c)).collect(Collectors.toList());
+			return new Product(factors.get(0), factors.get(1));
+		case "summand1":
+		case "summand2":
+		case "factor1":
+		case "factor2":
+			return parse(node.getChildren().get(0) );
 		case "number":
-			return new Number(Integer.parseInt(groupTree.getCapture().getValue()));
-
+			return new Number(Integer.parseInt(node.getCapture().getValue()));
+		case "inverse":
+			return new Inverse( parse(node.getChildren().get(0)) );
 		}
 
 		return null;

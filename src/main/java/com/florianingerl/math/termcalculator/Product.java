@@ -4,19 +4,18 @@ import java.util.List;
 
 public class Product extends Term {
 
-	private List<Term> factors;
+	private Term factor1;
+	private Term factor2;
 
-	public Product(List<Term> factors) {
+	public Product(Term factor1, Term factor2) {
 		super();
-		this.factors = factors;
+		this.factor1 = factor1;
+		this.factor2 = factor2;
 	}
 
 	@Override
 	public int calculate() {
-		int result = 1;
-		for (Term factor : factors)
-			result *= factor.calculate();
-		return result;
+		return factor1.calculate() * factor2.calculate();
 	}
 
 }
