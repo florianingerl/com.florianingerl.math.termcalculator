@@ -1,13 +1,19 @@
 (?x) #comment mode
 (?(DEFINE)
-(?<term>(?'number')|(?'inverse')|(?'product')|(?'sum')|\((?'term')\)) # end of term
+(?<term>(?'number')|(?'inverse')|(?'product')|(?'quotient')|(?'sum')|(?'difference')|\((?'term')\)) # end of term
 (?<number>\d+) # end of number
-(?<inverse>\(\-(?:(?'number')|(?'inverse')|(?'product')|\((?'term')\))\)) # end of inverse
+(?<inverse>\(\-(?:(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\))\)) # end of inverse
 (?<sum>(?'summand1')\+(?'summand2')) #end of sum
-(?<summand1>(?'number')|(?'inverse')|(?'product')|\((?'term')\)|(?'sum')) # end of summand1
-(?<summand2>(?'number')|(?'inverse')|(?'product')|\((?'term')\)) # end of summand2
+(?<summand1>(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\)|(?'sum')|(?'difference')) # end of summand1
+(?<summand2>(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\)) # end of summand2
+(?<difference>(?'minuend')\-(?'subtrahend')) # end of difference
+(?<minuend> (?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\)|(?'sum')|(?'difference') ) # end of minuend
+(?<subtrahend> (?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\) ) # end of subtrahend
 (?<product>(?'factor1')\*(?'factor2')) # end of product
-(?<factor1>(?'number')|(?'inverse')|\((?'term')\)|(?'product')) # end of factor1
+(?<factor1>(?'number')|(?'inverse')|\((?'term')\)|(?'product')|(?'quotient')) # end of factor1
 (?<factor2>(?'number')|(?'inverse')|\((?'term')\)) # end of factor2
+(?<quotient>(?'dividend')(?:/|\:)(?'divisor') ) # end of quotient
+(?<dividend> (?'number')|(?'inverse')|\((?'term')\)|(?'product')|(?'quotient') ) # end of dividend
+(?<divisor> (?'number')|(?'inverse')|\((?'term')\) ) # end of divisor
 )# end of DEFINE
 (?'term')

@@ -20,9 +20,8 @@ public class TermParser {
 	static {
 		try {
 			pattern = Pattern
-					.compile(IOUtils.toString(
-									TermParser.class.getClassLoader().getResourceAsStream("term1.regex")) );
-							
+					.compile(IOUtils.toString(TermParser.class.getClassLoader().getResourceAsStream("term1.regex")));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -36,7 +35,7 @@ public class TermParser {
 			return null;
 		CaptureTree captureTree = matcher.captureTree();
 		System.out.println(captureTree);
-		return parse(captureTree.getRoot() );
+		return parse(captureTree.getRoot());
 
 	}
 
@@ -44,24 +43,33 @@ public class TermParser {
 		if (node.getGroupName() == null || "term".equals(node.getGroupName()))
 			return parse(node.getChildren().get(0));
 
-		switch (node.getGroupName() ) {
+		switch (node.getGroupName()) {
 		case "sum":
-			List<Term> summands = node.getChildren().stream()
-					.map(c -> parse(c)).collect(Collectors.toList());
+			List<Term> summands = node.getChildren().stream().map(c -> parse(c)).collect(Collectors.toList());
 			return new Sum(summands.get(0), summands.get(1));
+		case "difference":
+			List<Term> minuendAndSubtrahend = node.getChildren().stream().map(c -> parse(c))
+					.collect(Collectors.toList());
+			return new Sum(minuendAndSubtrahend.get(0), new Inverse(minuendAndSubtrahend.get(1)));
 		case "product":
-			List<Term> factors = node.getChildren().stream()
-					.map(c -> parse(c)).collect(Collectors.toList());
+			List<Term> factors = node.getChildren().stream().map(c -> parse(c)).collect(Collectors.toList());
 			return new Product(factors.get(0), factors.get(1));
+		case "quotient":
+			List<Term> dividendAndDivisor = node.getChildren().stream().map(c -> parse(c)).collect(Collectors.toList());
+			return new Product(dividendAndDivisor.get(0), new MultiplicativeInverse( dividendAndDivisor.get(1) ) );
 		case "summand1":
 		case "summand2":
 		case "factor1":
 		case "factor2":
-			return parse(node.getChildren().get(0) );
+		case "minuend":
+		case "subtrahend":
+		case "dividend":
+		case "divisor":
+			return parse(node.getChildren().get(0));
 		case "number":
 			return new Number(Integer.parseInt(node.getCapture().getValue()));
 		case "inverse":
-			return new Inverse( parse(node.getChildren().get(0)) );
+			return new Inverse(parse(node.getChildren().get(0)));
 		}
 
 		return null;
