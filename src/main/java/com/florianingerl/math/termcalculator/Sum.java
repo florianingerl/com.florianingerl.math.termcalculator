@@ -2,6 +2,7 @@ package com.florianingerl.math.termcalculator;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.jscience.mathematics.number.Rational;
 
 public class Sum extends Term {
 
@@ -15,8 +16,10 @@ public class Sum extends Term {
 	}
 
 	@Override
-	public int calculate() {
-		return summand1.calculate() + summand2.calculate();
+	public Rational calculate() {
+		Rational sum = Rational.ZERO;
+		sum = sum.plus(summand1.calculate() );
+		return sum.plus(summand2.calculate() );
 	}
 
 }

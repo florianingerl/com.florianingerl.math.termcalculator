@@ -1,5 +1,7 @@
 package com.florianingerl.math.termcalculator;
 
+import org.jscience.mathematics.number.Rational;
+
 public class Inverse extends Term {
 
 	private Term term;
@@ -8,8 +10,8 @@ public class Inverse extends Term {
 		this.term = term;
 	}
 	@Override
-	public int calculate() {
-		return (-1) * term.calculate();
+	public Rational calculate() {
+		return term.calculate().times(-1);
 	}
 
 }

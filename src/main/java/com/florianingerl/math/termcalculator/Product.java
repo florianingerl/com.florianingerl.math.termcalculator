@@ -1,6 +1,6 @@
 package com.florianingerl.math.termcalculator;
 
-import java.util.List;
+import org.jscience.mathematics.number.Rational;
 
 public class Product extends Term {
 
@@ -14,8 +14,10 @@ public class Product extends Term {
 	}
 
 	@Override
-	public int calculate() {
-		return factor1.calculate() * factor2.calculate();
+	public Rational calculate() {
+		Rational product = Rational.valueOf(1, 1);
+		product = product.times(factor1.calculate());
+		return product.times(factor2.calculate() );
 	}
 
 }

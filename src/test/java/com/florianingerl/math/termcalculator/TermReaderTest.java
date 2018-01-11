@@ -2,6 +2,7 @@ package com.florianingerl.math.termcalculator;
 
 import static org.junit.Assert.*;
 
+import org.jscience.mathematics.number.Rational;
 import org.junit.Test;
 
 public class TermReaderTest {
@@ -10,53 +11,59 @@ public class TermReaderTest {
 	public void readSumTest() {
 		TermParser reader = new TermParser();
 		Term t = reader.parse("5+8");
-		assertEquals(13, t.calculate());
+		assertEquals(Rational.valueOf(13,1), t.calculate());
 
 		t = reader.parse("4+6+8");
-		assertEquals(18, t.calculate());
+		assertEquals(Rational.valueOf(18,1), t.calculate());
 
 		t = reader.parse("5+6+7+7");
-		assertEquals(25, t.calculate());
+		assertEquals(Rational.valueOf(25,1), t.calculate());
 	}
 	
 	@Test
 	public void parseMixedTerms() {
 		TermParser reader = new TermParser();
 		Term t = reader.parse("5+4*2");
-		assertEquals(13, t.calculate());
+		assertEquals(Rational.valueOf(13,1), t.calculate());
 
 		t = reader.parse("5+(-3)*2");
-		assertEquals(-1, t.calculate());
+		assertEquals(Rational.valueOf(-1,1), t.calculate());
 
 		t = reader.parse("5+(-3*2)");
-		assertEquals(-1, t.calculate());
+		assertEquals(Rational.valueOf(-1,1), t.calculate());
 		
 		t = reader.parse("6+(-(6+7))");
-		assertEquals(-7, t.calculate() );
+		assertEquals(Rational.valueOf(-7,1), t.calculate() );
 		
 		t = reader.parse("5-(-3)");
-		assertEquals(8, t.calculate() );
+		assertEquals(Rational.valueOf(8,1), t.calculate() );
 		
 		t = reader.parse("5-(-3)+6");
-		assertEquals(14, t.calculate() );
+		assertEquals(Rational.valueOf(14,1), t.calculate() );
 		
 		t = reader.parse("(-(3-2))-8");
-		assertEquals(-9, t.calculate() );
+		assertEquals(Rational.valueOf(-9,1), t.calculate() );
 		
 		t = reader.parse("6-(5-7)");
-		assertEquals(8, t.calculate() );
+		assertEquals(Rational.valueOf(8,1), t.calculate() );
 		
 		t = reader.parse("8/1");
-		assertEquals(8, t.calculate() );
+		assertEquals(Rational.valueOf(8,1), t.calculate() );
 		
 		t = reader.parse("8:1");
-		assertEquals(8, t.calculate() );
+		assertEquals(Rational.valueOf(8,1), t.calculate() );
 		
 		t = reader.parse("8:(-1)");
-		assertEquals(-8, t.calculate() );
+		assertEquals(Rational.valueOf(-8,1), t.calculate() );
 		
 		t = reader.parse("(-8):(-1)");
-		assertEquals(8, t.calculate() );
+		assertEquals(Rational.valueOf(8,1), t.calculate() );
+	
+		t = reader.parse("8:4+2");
+		assertEquals(Rational.valueOf(4,1), t.calculate() );
+		
+		t = reader.parse("8:(-4)+2+1:(3+5)");
+		assertEquals(Rational.valueOf(1,8), t.calculate() );
 	}
 
 }

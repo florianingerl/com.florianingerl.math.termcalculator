@@ -56,7 +56,7 @@ public class TermParser {
 			return new Product(factors.get(0), factors.get(1));
 		case "quotient":
 			List<Term> dividendAndDivisor = node.getChildren().stream().map(c -> parse(c)).collect(Collectors.toList());
-			return new Product(dividendAndDivisor.get(0), new MultiplicativeInverse( dividendAndDivisor.get(1) ) );
+			return new Quotient(dividendAndDivisor.get(0), dividendAndDivisor.get(1) );
 		case "summand1":
 		case "summand2":
 		case "factor1":

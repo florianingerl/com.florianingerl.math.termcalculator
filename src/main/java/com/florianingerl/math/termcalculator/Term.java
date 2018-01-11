@@ -1,5 +1,7 @@
 package com.florianingerl.math.termcalculator;
 
+import org.jscience.mathematics.number.Rational;
+
 public abstract class Term {
-	public abstract int calculate();
+	public abstract Rational calculate();
 }

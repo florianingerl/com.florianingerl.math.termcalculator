@@ -1,5 +1,7 @@
 package com.florianingerl.math.termcalculator;
 
+import org.jscience.mathematics.number.Rational;
+
 public class Number extends Term {
 
 	private int i;
@@ -10,8 +12,8 @@ public class Number extends Term {
 	}
 
 	@Override
-	public int calculate() {
-		return i;
+	public Rational calculate() {
+		return Rational.valueOf(i,1);
 	}
 
 }
