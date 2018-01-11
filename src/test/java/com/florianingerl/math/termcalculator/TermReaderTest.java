@@ -41,9 +41,6 @@ public class TermReaderTest {
 		t = reader.parse("5-(-3)+6");
 		assertEquals(Rational.valueOf(14,1), t.calculate() );
 		
-		t = reader.parse("(-(3-2))-8");
-		assertEquals(Rational.valueOf(-9,1), t.calculate() );
-		
 		t = reader.parse("6-(5-7)");
 		assertEquals(Rational.valueOf(8,1), t.calculate() );
 		
@@ -64,6 +61,19 @@ public class TermReaderTest {
 		
 		t = reader.parse("8:(-4)+2+1:(3+5)");
 		assertEquals(Rational.valueOf(1,8), t.calculate() );
+		
+		t = reader.parse("(-(3-2))-8");
+		assertEquals(Rational.valueOf(-9,1), t.calculate() );
+	}
+	
+	@Test
+	public void testParseTermsWithInverseAtBeginningOfInputOrBracket() {
+		TermParser reader = new TermParser();
+		Term t = reader.parse("-5+2");
+		assertEquals(Rational.valueOf(-3,1), t.calculate() );
+		
+		t = reader.parse("-(-5+2)");
+		assertEquals(Rational.valueOf(3,1), t.calculate() );
 	}
 
 }

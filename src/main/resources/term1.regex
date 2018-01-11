@@ -2,7 +2,7 @@
 (?(DEFINE)
 (?<term>(?'number')|(?'inverse')|(?'product')|(?'quotient')|(?'sum')|(?'difference')|\((?'term')\)) # end of term
 (?<number>\d+) # end of number
-(?<inverse>\(\-(?:(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\))\)) # end of inverse
+(?<inverse>(?:(?<open>\()|^|(?<=\())\-(?:(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\))(?(open)\))) # end of inverse
 (?<sum>(?'summand1')\+(?'summand2')) #end of sum
 (?<summand1>(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\)|(?'sum')|(?'difference')) # end of summand1
 (?<summand2>(?'number')|(?'inverse')|(?'product')|(?'quotient')|\((?'term')\)) # end of summand2

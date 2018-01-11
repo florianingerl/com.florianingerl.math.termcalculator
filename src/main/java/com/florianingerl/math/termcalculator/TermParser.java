@@ -29,6 +29,7 @@ public class TermParser {
 	}
 
 	public Term parse(String term) {
+		System.out.println("Parsing term: " + term);
 		Matcher matcher = pattern.matcher(term);
 		matcher.setMode(Matcher.CAPTURE_TREE);
 		if (!matcher.matches())
@@ -69,7 +70,7 @@ public class TermParser {
 		case "number":
 			return new Number(Integer.parseInt(node.getCapture().getValue()));
 		case "inverse":
-			return new Inverse(parse(node.getChildren().get(0)));
+			return new Inverse(parse(node.getChildren().get(node.getChildren().size() - 1) ));
 		}
 
 		return null;
