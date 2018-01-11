@@ -29,7 +29,6 @@ public class TermParser {
 	}
 
 	public Term parse(String term) {
-		System.out.println("Parsing term: " + term);
 		Matcher matcher = pattern.matcher(term);
 		matcher.setMode(Matcher.CAPTURE_TREE);
 		if (!matcher.matches())
